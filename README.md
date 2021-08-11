@@ -9,14 +9,14 @@
 
 ## Contenido
 
-> ### /backend (link)
+> ### backend (link)
 > Codigo PHP para el backend del sistema.
 
-> ### /docs
+> ### docs
 > Se encuentran los documentos que se van desarrollando, separados por materias.
 
-> ### /frontend (link)
+> ### frontend (link)
 > Conjunto de paginas web desarrolladas con HTML, CSS y JavaScript.
 
-> ### /infra (link)
+> ### infra (link)
 > Configuraciones, scripts y todo lo referente a como levantar el sitio.

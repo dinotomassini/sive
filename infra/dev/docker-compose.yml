@@ -1,0 +1,37 @@
+version: "3.4"
+
+services:
+
+  front:
+    image: httpd
+    ports:
+      - 8080:80
+    volumes:
+      - ../../frontend/sive-front:/usr/local/apache2/htdocs
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: app
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DB: siveDB
+
+  back:
+    image: php:7.4.16-apache
+    ports: 
+      - 3300:3300
+    volumes:
+      - ../../backend/sive-back:/var/www/html
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: app
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DB: siveDB
+
+  mysql:
+    image: mysql
+    ports:
+      - 33306:3306
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: app
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DB: siveDB

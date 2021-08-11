@@ -1,0 +1,261 @@
+==========================================================================
+Ver de crear varios ambientes:
+  * dev: docker para apache, php; mysql local
+  * test: docker para apache, php y mysql(agregar algun script para que llene con datos), sin persistencia de la base?
+  * prod: docker para apache, php; mysql local?
+==========================================================================
+
+Imagenes
+  - APACHE - httpd
+  - PHP - php:7.4.16
+  - MYSQL/MariaDB - mysql/mariadb
+
+==========================================================================
+# Docker
+
+Para levantar el docker desde el mismo directorio donde esta: 
+  docker start CONTENEDOR
+
+Para levantar el docker desde otro directorio diferente: 
+#?  docker -f /ruta/a/Dockerfile up
+
+Si el docker esta en segundo plano, se pueden ver los logs con:
+  docker logs CONTENEDOR
+
+Lo mismo que el anterior pero lo muestra en tiempo real:
+  docker logs -f CONTENEDOR
+
+#? Parar el docker:
+  docker stop CONTENEDOR
+
+Para entrar en la shell de un contenedor:
+  sudo docker exec -it CONTENEDOR /bin/bash
+
+Para entrar en la shell del contenedor como root:
+  sudo docker exec -u 0 -it CONTENEDOR /bin/bash
+
+Para copiar (o mover) archivos entre el contenedor y el sistema anfitrión o viceversa:
+  sudo docker cp CONTENEDOR:ORIGEN DESTINO
+  sudo docker cp ORIGEN CONTENEDOR:DESTINO
+
+## REDES
+
+Ver los puertos abiertos de un contenedor
+  docker port sive
+
+Ver ip del contenedor ????? VER SI FUNCIONA EN LINUX
+  docker-machine ip default
+
+Crea una red para asociar los docker
+  docker network create sive-red
+
+Corre un docker de mysql en una red "sive-red"y le pone un alias "mysql" con algunas variables de entorno y crea el volumen para persistir los datos del docker
+  docker run -d \
+     --network sive-red --network-alias mysql \
+     -v sive-mysql-data:/var/lib/mysql \
+     -e MYSQL_ROOT_PASSWORD=secret \
+     -e MYSQL_DATABASE=sive \
+     mysql:5.7
+
+Ejecuta otro docker de node con el puerto 3000 abierto en la red "sive-red" con el volumen de la app y ejecutando el comando para actualizar los paquetes de node (en este caso deberiamos cambiar algunas cosas para utilizar apache y php)
+  docker run -dp 3000:3000 \
+    -w /sive -v "$(pwd):/sive" \
+    --network sive-red \
+    -e MYSQL_HOST=mysql \
+    -e MYSQL_USER=root \
+    -e MYSQL_PASSWORD=secret \
+    -e MYSQL_DB=todos \
+    node:12-alpine \
+    sh -c "yarn install && yarn run dev"
+
+## Ejemplo para saber la ip del contenedor utilizando un docker
+    docker run -it --network sive-red nicolaka/netshoot
+
+   Ejecutar el comando dig con el nombre del host (en la respuesta deberia aparecer la ip del contenedor)
+    dig mysql
+
+
+==========================================================================
+## Ejemplo de dockerfile:
+FROM php:7.4.16-apache
+#RUN apk update
+
+RUN mkdir /sive
+WORKDIR /sive
+
+#COPY  ./ ?????
+#RUN comando?
+==========================================================================
+## Ejemplo de dokerfile:ur base image
+FROM alpine:3.5
+
+# Install python and pip
+RUN apk add --update py2-pip
+
+# install Python modules needed by the Python app
+COPY requirements.txt /usr/src/app/
+RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+
+# copy files required for the app to run
+COPY app.py /usr/src/app/
+COPY templates/index.html /usr/src/app/templates/
+
+# tell the port number the container should expose
+EXPOSE 5000
+
+# run the application
+CMD ["python", "/usr/src/app/app.py"]
+==========================================================================
+# Docker compose
+
+Para levantar el docker desde el mismo directorio donde esta: 
+  docker-compose up
+
+Para levantar el docker desde otro directorio diferente: 
+  docker-compose -f /ruta/a/docker-compose.yml up
+
+Si el docker esta en segundo plano, se pueden ver los logs con:
+  docker-compose -f /ruta/a/docker-compose.yml logs
+
+Lo mismo que el anterior pero lo muestra en tiempo real:
+  docker-compose -f /ruta/a/docker-compose.yml logs -f
+
+Parar el docker:
+  docker-compose -f /ruta/a/docker-compose.yml stop
+
+Parar y borrar el docker:
+  docker-compose -f /ruta/a/docker-compose.yml down
+
+==========================================================================
+## Ejemplo de docker compose:
+version: '3'
+services:
+
+  apache:
+    image: php:7.4.16-apache
+    ports:
+        - 80:80
+    volumes:
+        - /sive/frontend/:/var/www/html
+
+  php:
+    image: php:7.4.16
+    port: 
+      - 4000:4000
+    volumes:
+      - /sive/backend/:/var/www/html
+    environment:
+      - "DATABASE_HOST=localhost"
+      - “DATABASE_USER=root"
+      - "DATABASE_PASSWORD="
+      - "DATABASE_DB_NAME=nombre"
+
+  mysql:
+      image: mysql
+      ports:
+          - 33303:3306
+      environment:
+        MYSQL_ROOT_PASSWORD: ""
+      volumes:
+          - /sive/data:/var/lib/mysql
+==========================================================================
+## Ejemplo docker compose:
+version: "3"
+services:
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379"
+    networks:
+      - frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+  db:
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  vote:
+    image: dockersamples/examplevotingapp_vote:before
+    ports:
+      - 5000:80
+    networks:
+      - frontend
+    depends_on:
+      - redis
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+  result:
+    image: dockersamples/examplevotingapp_result:before
+    ports:
+      - 5001:80
+    networks:
+      - backend
+    depends_on:
+      - db
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    networks:
+      - frontend
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=VOTING]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == manager]
+
+  visualizer:
+    image: dockersamples/visualizer
+    ports:
+      - "8080:8080"
+    stop_grace_period: 1m30s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:
+
+deploy it
+  docker stack deploy --compose-file docker-stack.yml vote
+
+verificar la creacion del stack
+  docker stack services vote
+
+eliminar el stack
+  docker stack rm vote
+==========================================================================

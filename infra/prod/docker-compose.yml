@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+
+  front:
+    image: apache
+    ports:
+      - 80:80
+    volumes:
+      - ../../frontend/:/var/www/html
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: app
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: siveDB
+
+  back:
+    image: php:7.4.16
+    ports: 
+      - 3300:3000
+    volumes:
+      - ../../backend/:/var/www/html
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: app
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: siveDB

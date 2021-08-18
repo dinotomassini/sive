@@ -1,3 +1,7 @@
 backend/sive-back/todo.txt
 backend/sive-back/notas.txt
 backend/sive-back/.env
+frontend/sive-front/notes.txt
+frontend/sive-front/todo.txt
+infra/ayuda.txt
+infra/*/data/*

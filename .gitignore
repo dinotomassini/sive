@@ -1,7 +1,7 @@
-backend/sive-back/todo.txt
-backend/sive-back/notas.txt
-backend/sive-back/.env
-frontend/sive-front/notes.txt
-frontend/sive-front/todo.txt
+backend/todo.txt
+backend/notas.txt
+backend/env
+frontend/notes.txt
+frontend/todo.txt
 infra/ayuda.txt
-infra/*/data/*
+infra/dev/data

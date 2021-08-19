@@ -8,7 +8,7 @@ services:
 #    ports:
 #      - 8080:80
 #    volumes:
-#      - ../../frontend/sive-front/:/usr/local/apache2/htdocs
+#      - ../../frontend:/usr/local/apache2/htdocs
 #    environment:
 #      MYSQL_HOST: mysql
 #      MYSQL_USER: app
@@ -20,7 +20,7 @@ services:
 #    ports: 
 #      - 3300:3300
 #    volumes:
-#      - ../../backend/sive-back:/var/www/html
+#      - ../../backend:/var/www/html
 #    environment:
 #      MYSQL_HOST: mysql
 #      MYSQL_USER: app
@@ -32,8 +32,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ../../frontend/sive-front:/var/www/html
-      - ../../backend/sive-back:/sive
+      - ../../frontend:/var/www/html
+      - ../../backend:/sive
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER: app

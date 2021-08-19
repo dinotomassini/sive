@@ -1,6 +1,6 @@
 backend/todo.txt
 backend/notas.txt
-backend/env
+backend/.env
 frontend/notes.txt
 frontend/todo.txt
 infra/ayuda.txt

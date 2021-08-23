@@ -33,7 +33,7 @@ services:
       - 80:80
     volumes:
       - ../../frontend:/var/www/html
-      - ../../backend:/sive
+#      - ../../backend:/sive
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER: app

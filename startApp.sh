@@ -11,6 +11,20 @@ function testServerUp(){
 }
 
 function prodServerUp(){
+  # Tomar datos
+  echo "Ahora necesitamos preuntarle algunos datos."
+  direccionApp=read "Ubicacion de la app (ej: /home/pepe/proyectos/esteMismo)"
+  # validar que no este vacio
+  echo "Ahora necesitamos los datos para la base de datos. Debe asegurase de tener instalado y corriendo el servicio de MySQL version 5.7.35 ."
+  hostBD=read "El host: "
+  userBD=read "El usuario para acceder: "
+  passBD=read "La contraseña: "
+  nameDB=read "El nombre de la base de datos: "
+
+  # Configurar el archivo docker-compose.yml con los datos ingresados por el usuario
+  echo "Creando el archivo para la ejecucion de docker..."
+
+  # Levantar docker
   echo "Levantando servidor de Produccion..."
   docker-compose -f infra/prod/docker-compose.yml up
 }

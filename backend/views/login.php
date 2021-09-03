@@ -1,19 +1,20 @@
+<?php include_once '../config.php'; ?>
+
 <?php
-require "./partials/head.php";
+require BASE_DIR."/views/partials/head.php";
 ?>
 
 <?php
-require "./partials/menuBar.php";
+require BASE_DIR."/views/partials/barraNavegacion.php";
 ?>
 
 <main class="container mb-5">
 
   <div class="card mx-auto" style="max-width: 26rem;">
 
-    <!-- row rows-column-sm-1 m-5 -->
     <div class="row m-3">
       <div class="col">
-        <img src="/sive-front/assets/images/logo.png" alt="IMAGEN" width="80px" class="d-block mx-auto">
+        <img src="/assets/images/logo.png" alt="IMAGEN" width="80px" class="d-block mx-auto">
       </div>
     </div>
 
@@ -50,7 +51,7 @@ require "./partials/menuBar.php";
               <!-- pattern="/^([0-9])*$/" -->
               <input type="text" name="rut" id="rut" placeholder="Ingrese su RUT" class="form-control" autofocus
                 required>
-              <label for="rut">RUT:</label>
+              <label for="rut">RUT</label>
               <small id="rutHelper" class="form-text text-muted">Solo se aceptan números.</small>
             </div>
           </div>
@@ -77,7 +78,7 @@ require "./partials/menuBar.php";
 </main>
 
 <?php
-require "./partials/footer.php";
+require BASE_DIR."/views/partials/footer.php";
 ?>
 
 <script>

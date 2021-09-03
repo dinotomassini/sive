@@ -1,14 +1,15 @@
+<?php include_once 'config.php'; ?>
 <?php
-require "./views/partials/head.php";
+include BASE_DIR."/views/partials/head.php";
 ?>
 
 <?php
-require "./views/partials/menuBar.php";
+include BASE_DIR."/views/partials/barraNavegacion.php";
 ?>
 
 <!-- BUSCADOR -->
 <section id="buscador" class="container mt-3 mb-3">
-  <form class="d-flex mx-auto" style="max-width: 38rem;">
+  <form class="d-flex mx-auto" style="max-width: 38rem;" action="#">
     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
     <button class="btn btn-outline-success" type="submit">Buscar</button>
   </form>
@@ -23,7 +24,12 @@ require "./views/partials/menuBar.php";
   </ol>
 </nav>
 
+<section id="vendedor">
+  <a href="/views/producto/crudProducto.php">Gestion de productos</a>
+</section>
+
 <!-- SECCION DE CARRUSEL DE OFERTAS -->
+<!-- ! cambiar por un slider -->
 <section id="ofertas" class="container mb-3">
   <!-- CAROUSEL -->
   <div id="carouselOfertas" class="carousel slide" data-bs-ride="carousel">
@@ -37,27 +43,27 @@ require "./views/partials/menuBar.php";
     <!-- CONTENIDO DEL CAROUSEL -->
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="https://picsum.photos/id/32/200/70" class="d-block w-100" alt="...">
+        <img src="/assets/images/product--3891591_1280.jpg" class="d-block w-100" alt="reloj">
         <div class="carousel-caption d-none d-md-block">
-          <h5>Primer Oferta</h5>
+          <h5>Reloj ETERNO</h5>
           <p>No la dejes pasar</p>
-          <button class="btn btn-primary">Comprar</button>
+          <a href="/views/producto/paginaProducto.php" class="btn btn-primary">Comprar</a>
         </div>
       </div>
       <div class="carousel-item">
-        <img src="https://picsum.photos/id/13/200/70" class="d-block w-100" alt="...">
+        <img src="/assets/images/product-5222394_1280.jpg" class="d-block w-100" alt="camara">
         <div class="carousel-caption d-none d-md-block">
-          <h5>Segunda Oferta</h5>
+          <h5>Camara TOTAL</h5>
           <p>No la dejes pasar</p>
-          <button class="btn btn-primary">Comprar</button>
+          <a href="/views/producto/paginaProducto.php" class="btn btn-primary">Comprar</a>
         </div>
       </div>
       <div class="carousel-item">
-        <img src="https://picsum.photos/id/132/200/70" class="d-block w-100" alt="...">
+        <img src="/assets/images/product-5222398_1280.jpg" class="d-block w-100" alt="lentes">
         <div class="carousel-caption d-none d-md-block">
-          <h5>Tercera Oferta</h5>
+          <h5>Lentes ESPIAS</h5>
           <p>No la dejes pasar</p>
-          <button class="btn btn-primary">Comprar</button>
+          <a href="/views/producto/paginaProducto.php" class="btn btn-primary">Comprar</a>
         </div>
       </div>
     </div>
@@ -79,15 +85,12 @@ require "./views/partials/menuBar.php";
   <h3 class="text-center">DESTACADOS</h3>
 
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+    <!-- tarjeta del producto -->
     <div class="col">
-      <!-- tarjeta del producto -->
       <div class="card border-2 border-warning mb-3 mx-auto" style="max-width: 20rem;">
-
-        <!-- este input hidden es para pasarle a la carta el id del producto para hacer click en el titulo y que lleve al usuario a la pagina del producto -->
-        <!-- <input type="hidden" name="id" value="id"> -->
-
         <div class="position-box">
-          <img src="https://picsum.photos/200/200" alt=" Imagen del producto" class="card-img-top">
+          <img src="/assets/images/product--3891591_1280.jpg" alt="reloj" class="card-img-top">
           <div class="card-img-overlay">
             <h4><span class="badge rounded-pill bg-success">NEW</span></h4>
             <div class="position-price">
@@ -99,17 +102,17 @@ require "./views/partials/menuBar.php";
           </div>
         </div>
         <div class="card-body">
-          <h4 class="card-title"><a href="#">Titulo del producto</a></h4>
-          <p class="card-text">Breve descripcion del producto, lorem ipsum, lorem ipsum, lorem ipsum.</p>
+          <h4 class="card-title"><a href="/views/producto/paginaProducto.php">Reloj ETERNO</a></h4>
+          <p class="card-text">Excelente reloj que dura toda la vida, y no tiene engranajes.</p>
         </div>
       </div>
     </div>
 
+    <!-- tarjeta del producto -->
     <div class="col">
-      <!-- tarjeta del producto -->
       <div class="card border-2 border-warning mb-3 mx-auto" style="max-width: 20rem;">
         <div class="position-box">
-          <img src="https://picsum.photos/200/200" alt=" Imagen del producto" class="card-img-top">
+          <img src="/assets/images/product-5222394_1280.jpg" alt="camara" class="card-img-top">
           <div class="card-img-overlay">
             <!-- <h4><span class="badge rounded-pill bg-success">NEW</span></h4> -->
             <div class="position-price">
@@ -121,17 +124,18 @@ require "./views/partials/menuBar.php";
           </div>
         </div>
         <div class="card-body">
-          <h4 class="card-title">Titulo del producto</h4>
-          <p class="card-text">Breve descripcion del producto, lorem ipsum, lorem ipsum, lorem ipsum.</p>
+          <h4 class="card-title"><a href="/views/producto/paginaProducto.php">Camara TOTAL</a></h4>
+          <p class="card-text">Camara especial que toma fotos bajo el agua, sobre el agua, y se ha probado bajo la lava.
+          </p>
         </div>
       </div>
     </div>
 
+    <!-- tarjeta del producto -->
     <div class="col">
-      <!-- tarjeta del producto -->
       <div class="card border-2 border-warning mb-3 mx-auto" style="max-width: 20rem;">
         <div class="position-box">
-          <img src="https://picsum.photos/200/200" alt=" Imagen del producto" class="card-img-top">
+          <img src="/assets/images/product-5222398_1280.jpg" alt="lentes" class="card-img-top">
           <div class="card-img-overlay">
             <h4><span class="badge rounded-pill bg-success">NEW</span></h4>
             <div class="position-price">
@@ -143,16 +147,63 @@ require "./views/partials/menuBar.php";
           </div>
         </div>
         <div class="card-body">
-          <h4 class="card-title">Titulo del producto</h4>
-          <p class="card-text">Breve descripcion del producto, lorem ipsum, lorem ipsum, lorem ipsum.</p>
+          <h4 class="card-title"><a href="/views/producto/paginaProducto.php">Lentes ESPIAS</a></h4>
+          <p class="card-text">Lentes de sol, muy buen estilo y materiales; y si, si tiene rayos X.</p>
         </div>
       </div>
     </div>
+
+    <!-- tarjeta del producto -->
+    <div class="col">
+      <div class="card border-2 border-warning mb-3 mx-auto" style="max-width: 20rem;">
+        <div class="position-box">
+          <img src="/assets/images/product-5226389_1280.jpg" alt="cuchillas" class="card-img-top">
+          <div class="card-img-overlay">
+            <h4><span class="badge rounded-pill bg-success">NEW</span></h4>
+            <div class="position-price">
+              <h3 class="card-text"><span class="badge rounded-pill bg-primary">$ 15555</span></h3>
+            </div>
+            <div class="position-button">
+              <button class="btn btn-danger"><i class="fas fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title"><a href="/views/producto/paginaProducto.php">Cuchillas Nordica</a></h4>
+          <p class="card-text">Cuchilla curva para corte de aromaticas, y alguna cosa mas; forjada en la mismisima forja
+            de los enanos sindri y su hermano Brokk.</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- tarjeta del producto -->
+    <div class="col">
+      <div class="card border-2 border-warning mb-3 mx-auto" style="max-width: 20rem;">
+        <div class="position-box">
+          <img src="/assets/images/product-958804_1280.jpg" alt="zapatos" class="card-img-top">
+          <div class="card-img-overlay">
+            <h4><span class="badge rounded-pill bg-success">NEW</span></h4>
+            <div class="position-price">
+              <h3 class="card-text"><span class="badge rounded-pill bg-primary">$ 15555</span></h3>
+            </div>
+            <div class="position-button">
+              <button class="btn btn-danger"><i class="fas fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title"><a href="/views/producto/paginaProducto.php">Zapatos Acuaticos</a></h4>
+          <p class="card-text">Zapatos anti-humedad y agua, jesus usaba un par de estos cuando camino sobre el agua.</p>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 
-
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary">Ver todos los produtos --></button>
+    <a class="btn btn-primary" href="/views/producto/paginaProducto.php">Ver todos los produtos --></a>
   </div>
 </section>
 
@@ -247,5 +298,5 @@ require "./views/partials/menuBar.php";
 </section> -->
 
 <?php
-require "./views/partials/footer.php";
+include BASE_DIR."/views/partials/footer.php";
 ?>

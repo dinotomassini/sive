@@ -32,8 +32,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ../../frontend:/var/www/html
-#      - ../../backend:/sive
+#      - ../../frontend:/var/www/html
+      - ../../backend:/var/www/html
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER: app
